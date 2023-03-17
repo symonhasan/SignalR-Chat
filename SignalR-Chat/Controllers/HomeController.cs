@@ -18,9 +18,14 @@ namespace SignalR_Chat.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult GetClientId([FromBody] ClientInfo model)
         {
-            return View();
+            return Ok(new
+            {
+                UserId = Guid.NewGuid().ToString(),
+                UserName = model.UserName
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,8 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-between align-items-center custom-navbar">
+    <div class="site-header">SignalR-Chat</div>
+    <div class="userName d-flex flex-column">
+        <div id="userNameText"></div>
+        <div id="userIdText"></div>
+    </div>
 </div>
+
+@Html.Partial("_UserAuthModal")
+
+@section Scripts {
+    <script type="text/javascript">
+        var AuthURLs = {
+            GetClientId: '@Url.Action("GetClientId", "Home")'
+        }
+    </script>
+}

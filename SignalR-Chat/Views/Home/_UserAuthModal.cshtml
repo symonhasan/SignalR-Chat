@@ -1,0 +1,23 @@
+﻿<button type="button" id="authModalToggleButton" data-bs-toggle="modal" data-bs-target="#authModal" hidden>Launch modal</button>
+<div class="modal" id="authModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-end">
+                    <button type="button" id="authModalCloseBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-center auth-header">
+                        <label>Please enter your username to continue.</label>
+                    </div>
+                    <div class="d-flex justify-content-center auth-input">
+                        <input class="form-control" type="text" id="userName" maxlength="15" placeholder="Ex. Jhon Doe" />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center auth-buttons">
+                    <button type="button" id="authContinueBtn" class="btn btn-primary">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
