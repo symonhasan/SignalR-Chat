@@ -1,6 +1,6 @@
 # SignalR-Chat
-The concept of this application is to anonymously chat with other people. The chats are not stored in any database. 
-## UI
+The concept of this application is to anonymously chat with other people.
+## User Interface
 Provide a username.
 ![image](https://user-images.githubusercontent.com/34129377/226182002-32ac3d67-b6f9-4e75-b615-1edf3df9c8f2.png)
 Wait until any other person is available.
