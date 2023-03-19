@@ -8,24 +8,9 @@
         <div id="userIdText"></div>
     </div>
 </div>
-<div class="chat-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3 id="connectionMsg">Connecting...</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <input type="text" id="chatBox" placeholder="Type something.." />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12" id="messageBox">
-
-            </div>
-        </div>
-    </div>
+<div class="loading-section" id="loading"></div>
+<div class="chat-section" id="chat">
+    @Html.Partial("_Chat")
 </div>
 
 @Html.Partial("_UserAuthModal")
@@ -33,8 +18,8 @@
 @section Scripts {
     <script type="text/javascript">
         var AuthURLs = {
-            GetClientId: '@Url.Action("GetClientId", "Home")'
+            GetClientId: '@Url.Action("GetClientId", "Home")',
+            GetLoadingView: '@Url.Action("GetLoadingView", "Home")'
         }
     </script>
-    <script src="~/js/chat.js" asp-append-version="true" type="text/javascript"></script>
 }

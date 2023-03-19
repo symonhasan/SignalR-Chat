@@ -43,14 +43,17 @@ namespace SignalR_Chat.Hubs
             {
                 var currentUser = _connectionManager.GetClientInfo(userId);
                 var connectedWith = _connectionManager.GetConnectedWith(userId);
-                Clients.Client(currentUser.ConnectionId).SendAsync("ConnectionEstablished", $"Connected with {connectedWith.UserName}");
-                Clients.Client(connectedWith.ConnectionId).SendAsync("ConnectionEstablished", $"Connected with {currentUser.UserName}");
+                Clients.Client(currentUser.ConnectionId).SendAsync("ConnectionEstablished", $"You are connected with {connectedWith.UserName}.");
+                Clients.Client(connectedWith.ConnectionId).SendAsync("ConnectionEstablished", $"You are connected with {currentUser.UserName}.");
             }
         }
 
         public async Task SendMessage(string userId, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", userId, message);
+            var currentUser = _connectionManager.GetClientInfo(userId);
+            var connectedWith = _connectionManager.GetConnectedWith(userId);
+            await Clients.Client(currentUser.ConnectionId).SendAsync("ReceiveMessage", message, userId);
+            await Clients.Client(connectedWith.ConnectionId).SendAsync("ReceiveMessage", message, userId);
         }
 
         #endregion

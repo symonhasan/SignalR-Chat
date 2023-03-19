@@ -28,6 +28,11 @@ namespace SignalR_Chat.Controllers
             });
         }
 
+        public IActionResult GetLoadingView()
+        {
+            return PartialView("_Loading");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .auth-header {
@@ -30,4 +31,63 @@
 
 #userIdText {
     font-size: 0.8rem;
+}
+
+#loading {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#loading p {
+    font-size: 1.3rem;
+}
+
+#loading img {
+    width: 100%;
+}
+
+#messages {
+    min-height: 400px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#connectionMsg {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#chat-root {
+    margin-top: 20px;
+}
+
+#message-section, #chat-section {
+    margin-top: 10px;
+}
+
+.message-block {
+    margin-top: 3px;
+    font-size: 0.8rem;
+}
+
+.self-text {
+    padding: 10px;
+    background-color: #6C63FF;
+    color: white;
+    max-width: 55%;
+    border-radius: 10px;
+}
+
+.recieved-text {
+    padding: 10px;
+    background-color: #191919;
+    color: white;
+    max-width: 55%;
+    border-radius: 10px;
+}
+
+#sendBtn {
+    margin-left: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }

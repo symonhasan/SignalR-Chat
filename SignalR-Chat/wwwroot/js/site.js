@@ -1,12 +1,24 @@
 ﻿$(document).ready(function () {
     const guserName = sessionStorage.getItem('SignalR_UserName');
     const guserId = sessionStorage.getItem('SignalR_UserId');
+    $('#chat').hide();
 
     if (guserName == undefined || guserId == undefined) {
         showAuthModal();
     } else {
         $('#userNameText').html('Hello ' + guserName);
         $('#userIdText').html(guserId);
+
+        getLoadingView().then(response => {
+            $('#loading').html(response);
+
+            const userName = sessionStorage.getItem('SignalR_UserName');
+            const userId = sessionStorage.getItem('SignalR_UserId');
+            subscribeUser(userId, userName);
+        })
+            .catch(err => {
+                alert("An error occurred. Please try again.")
+            })
     }
 
     $('#authContinueBtn').on('click', function () {
@@ -19,7 +31,15 @@
                 $('#userNameText').html('Hello ' + userName);
                 $('#userIdText').html(userId);
                 closeAuthModal();
+                return getLoadingView();
+            })
+            .then((response) => {
+                $('#loading').html(response);
+
+                const userName = sessionStorage.getItem('SignalR_UserName');
+                const userId = sessionStorage.getItem('SignalR_UserId');
                 subscribeUser(userId, userName);
+                return;
             })
             .catch(error => {
                 alert("An error occurred. Please try again.")
@@ -49,6 +69,21 @@
                 data: JSON.stringify({
                     userName: userName
                 }),
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (error) {
+                    reject();
+                }
+            });
+        });
+    }
+
+    function getLoadingView() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: AuthURLs.GetLoadingView,
+                method: 'GET',
                 success: function (response) {
                     resolve(response);
                 },
