@@ -21,8 +21,16 @@ namespace SignalR_Chat.Hubs
         }
 
         #endregion
-        
+
         #region Methods
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var connectedWith = _connectionManager.GetConnectedWithByConnectionId(Context.ConnectionId);
+            await Clients.Client(connectedWith.ConnectionId).SendAsync("SkipCurrentChat");
+            _connectionManager.DisconnectClient(Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
+        }
 
         public void Subscribe(string userId, string userName)
         {
@@ -54,6 +62,15 @@ namespace SignalR_Chat.Hubs
             var connectedWith = _connectionManager.GetConnectedWith(userId);
             await Clients.Client(currentUser.ConnectionId).SendAsync("ReceiveMessage", message, userId);
             await Clients.Client(connectedWith.ConnectionId).SendAsync("ReceiveMessage", message, userId);
+        }
+
+        public async Task SkipCurrentChat(string userId)
+        {
+            var currentUser = _connectionManager.GetClientInfo(userId);
+            var connectedWith = _connectionManager.GetConnectedWith(userId);
+            _connectionManager.SkipCurrentConnection(userId);
+            await Clients.Client(currentUser.ConnectionId).SendAsync("SkipCurrentChat");
+            await Clients.Client(connectedWith.ConnectionId).SendAsync("SkipCurrentChat");
         }
 
         #endregion

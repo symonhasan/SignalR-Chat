@@ -10,5 +10,7 @@ namespace SignalR_Chat.Utilities
         void SkipCurrentConnection(string userId);
         ClientInfo GetClientInfo(string userId);
         ClientInfo GetConnectedWith(string userId);
+        void DisconnectClient(string connectionId);
+        ClientInfo GetConnectedWithByConnectionId(string connectionId);
     }
 }

@@ -6,6 +6,7 @@ namespace SignalR_Chat.Utilities
     {
         #region Fields
 
+        private readonly object _lock = new object();
         public IList<ClientInfo> ClientInfos { get; set; }
         public IDictionary<string, string> ConnectionMap { get; set; }
         public List<string> AvailableClients { get; set; }
@@ -39,23 +40,28 @@ namespace SignalR_Chat.Utilities
 
         public bool SearchForAvailableConnection(string userId)
         {
-            foreach (var availableUserId in AvailableClients)
+            lock (_lock)
             {
-                if (availableUserId == userId)
+                foreach (var availableUserId in AvailableClients)
                 {
-                    continue;
-                }
-                var isAvailable = ConnectionMap.Any(x => x.Key == availableUserId);
+                    if (availableUserId == userId)
+                    {
+                        continue;
+                    }
+                    var isAvailable = ConnectionMap.Any(x => x.Key == availableUserId);
 
-                if (!isAvailable)
-                {
-                    ConnectionMap[userId] = availableUserId;
-                    ConnectionMap[availableUserId] = userId;
-                    return true;
+                    if (!isAvailable)
+                    {
+                        ConnectionMap[userId] = availableUserId;
+                        ConnectionMap[availableUserId] = userId;
+                        AvailableClients.Remove(userId);
+                        AvailableClients.Remove(availableUserId);
+                        return true;
+                    }
                 }
+
+                return false;
             }
-
-            return false;
         }
 
         public void SkipCurrentConnection(string userId)
@@ -74,6 +80,23 @@ namespace SignalR_Chat.Utilities
 
         public ClientInfo GetConnectedWith(string userId)
         {
+            return ClientInfos.SingleOrDefault(x => x.UserId == ConnectionMap[userId]);
+        }
+
+        public void DisconnectClient(string connectionId)
+        {
+            var clientInfo = ClientInfos.SingleOrDefault(x => x.ConnectionId == connectionId);
+            ClientInfos.Remove(clientInfo);
+            AvailableClients.Remove(clientInfo.UserId);
+            var connectedWith = ConnectionMap[clientInfo.UserId];
+            ConnectionMap.Remove(connectedWith);
+            ConnectionMap.Remove(clientInfo.UserId);
+            AvailableClients.Add(connectedWith);
+        }
+
+        public ClientInfo GetConnectedWithByConnectionId(string connectionId)
+        {
+            var userId = ClientInfos.SingleOrDefault(x => x.ConnectionId == connectionId)?.UserId;
             return ClientInfos.SingleOrDefault(x => x.UserId == ConnectionMap[userId]);
         }
 

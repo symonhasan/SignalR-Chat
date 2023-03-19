@@ -18,6 +18,17 @@ connection.on("ConnectionEstablished", function (message) {
     $('#chatBox').removeAttr('disabled');
 });
 
+connection.on("SkipCurrentChat", function () {
+    $('#chat').hide();
+    $('#loading').show();
+    $('#messages').html('');
+    $('#connectionMsg').text('');
+    $('#chatBox').attr('disabled', true);
+
+    const userId = $('#userIdText').text();
+    searchForConnection(userId);
+});
+
 $('#chatBox').on('keypress', function (e) {
     if (e.which == 13) {
         sendMessage();
@@ -26,6 +37,15 @@ $('#chatBox').on('keypress', function (e) {
 
 $('#sendBtn').on('click', function () {
     sendMessage();
+});
+
+document.addEventListener('keydown', function (e) {
+    if (e.which == 27) {
+        if (connection != undefined) {
+            const userId = $('#userIdText').text();
+            connection.invoke('SkipCurrentChat', userId);
+        }
+    }
 });
 
 function subscribeUser(userId, userName) {
@@ -37,9 +57,7 @@ function subscribeUser(userId, userName) {
 }
 
 function searchForConnection(userId) {
-    connection.invoke("SearchForConnection", userId).then(res => {
-        console.log(res);
-    })
+    connection.invoke("SearchForConnection", userId)
         .catch(err => {
             console.log(err);
         })

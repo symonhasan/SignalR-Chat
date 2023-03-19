@@ -14,7 +14,10 @@
 
             const userName = sessionStorage.getItem('SignalR_UserName');
             const userId = sessionStorage.getItem('SignalR_UserId');
-            subscribeUser(userId, userName);
+
+            setTimeout(function () {
+                subscribeUser(userId, userName);
+            }, 1000);
         })
             .catch(err => {
                 alert("An error occurred. Please try again.")
