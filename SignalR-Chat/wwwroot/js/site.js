@@ -19,6 +19,7 @@
                 $('#userNameText').html('Hello ' + userName);
                 $('#userIdText').html(userId);
                 closeAuthModal();
+                subscribeUser(userId, userName);
             })
             .catch(error => {
                 alert("An error occurred. Please try again.")

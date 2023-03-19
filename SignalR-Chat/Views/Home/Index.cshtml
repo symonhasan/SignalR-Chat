@@ -8,6 +8,25 @@
         <div id="userIdText"></div>
     </div>
 </div>
+<div class="chat-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 id="connectionMsg">Connecting...</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="text" id="chatBox" placeholder="Type something.." />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" id="messageBox">
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @Html.Partial("_UserAuthModal")
 
@@ -17,4 +36,5 @@
             GetClientId: '@Url.Action("GetClientId", "Home")'
         }
     </script>
+    <script src="~/js/chat.js" asp-append-version="true" type="text/javascript"></script>
 }
